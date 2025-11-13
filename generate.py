@@ -48,7 +48,7 @@ def generate_password():
                 # Generate final password
                 password = uppercase + lowercase + digit + symbol
                 # Shuffle the password
-                password = shuffle_password(password=password)
+                password = shuffle_password(password=password, length=password_length)
                 print(f"Generated Password: {password}")
                 break
             else:
@@ -62,43 +62,74 @@ def generate_password():
 # Uppercase letter function
 def add_uppercase(uppercase: str, length: int):
     random_letters: str = ""
-    for i in range(length // 4):
-        random_letters += random.choice(uppercase)
+    mod = 0
+    if length % 4 != 0:
+        mod = length % 4
+        for i in range(length // 4 + mod):
+            random_letters += random.choice(uppercase)
+    else:
+        for i in range(length // 4):
+            random_letters += random.choice(uppercase)
     return random_letters
 
 
 # Lowercase letter function
 def add_lowercase(lowercase: str, length: int):
     random_letters: str = ""
-    for i in range(length // 4):
-        random_letters += random.choice(lowercase_letters)
+    mod = 0
+    if length % 4 != 0:
+        mod = length % 4
+        for i in range(length // 4 + mod):
+            random_letters += random.choice(lowercase_letters)
+    else:
+        for i in range(length // 4):
+            random_letters += random.choice(lowercase_letters)
     return random_letters
 
 
 # Digit function
 def add_digits(digit: str, length: int):
     random_digit: str = ""
-    for i in range(length // 4):
-        random_digit += random.choice(digit)
+    mod = 0
+    if length % 4 != 0:
+        mod = length % 4
+        for i in range(length // 4 + mod):
+            random_digit += random.choice(digit)
+    else:
+        for i in range(length // 4):
+            random_digit += random.choice(digit)
     return random_digit
 
 
 # Symbol function
 def add_symbols(symbol: str, length: int):
     random_symbol: str = ""
-    for i in range(length // 4):
-        random_symbol += random.choice(symbol)
+    mod = 0
+    if length % 4 != 0:
+        mod = length % 4
+        for i in range(length // 4 + mod):
+            random_symbol += random.choice(symbol)
+    else:
+        for i in range(length // 4):
+            random_symbol += random.choice(symbol)
     return random_symbol
 
 
 # Shuffle password function
-def shuffle_password(password: str):
+def shuffle_password(password: str, length: int):
     shuffled_password: str = ""
     lst = list(password)
     random.shuffle(lst)
-    for i in lst:
-        shuffled_password += i
-    return "".join(shuffled_password)
+    if len(lst) <= length:
+        for i in lst:
+            shuffled_password += i
+        return "".join(shuffled_password)
+    else:
+        for i in range(len(lst) - length):
+            lst.remove(random.choice(lst))
+        for i in lst:
+            shuffled_password += i
+        return "".join(shuffled_password)
 
 
 if __name__ == "__main__":
